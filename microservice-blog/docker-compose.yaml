@@ -1,0 +1,50 @@
+version: "3.7"
+
+services:
+  api-posts:
+    build: ./backend/posts/
+    container_name: api-posts
+    ports:
+      - 4000:4000
+    networks:
+      - microservice-blog
+
+  api-comments:
+    build: ./backend/comments/
+    container_name: api-comments
+    ports:
+      - 4001:4001
+    networks:
+      - microservice-blog
+
+  api-query:
+    build: ./backend/query/
+    container_name: api-query
+    ports:
+      - 4002:4002
+    networks:
+      - microservice-blog
+    depends_on:
+      - api-event-bus
+    links:
+      - api-event-bus
+
+  api-moderation:
+    build: ./backend/moderation/
+    container_name: api-moderation
+    ports:
+      - 4003:4003
+    networks:
+      - microservice-blog
+
+  api-event-bus:
+    build: ./backend/event-bus/
+    container_name: api-event-bus
+    ports:
+      - 4005:4005
+    networks:
+      - microservice-blog
+
+networks:
+  microservice-blog:
+    driver: bridge
