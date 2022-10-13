@@ -14,21 +14,27 @@ app.post("/events", async (request, response) => {
 
   events.push(event);
 
-  await axios.post("http://localhost:4000/events", event).catch((err) => {
+  await axios
+    .post("http://posts-clusterip-service:4000/events", event)
+    .catch((err) => {
+      console.log(err.message);
+    });
+
+  await axios
+    .post("http://comments-service:4001/events", event)
+    .catch((err) => {
+      console.log(err.message);
+    });
+
+  await axios.post("http://query-service:4002/events", event).catch((err) => {
     console.log(err.message);
   });
 
-  await axios.post("http://localhost:4001/events", event).catch((err) => {
-    console.log(err.message);
-  });
-
-  await axios.post("http://localhost:4002/events", event).catch((err) => {
-    console.log(err.message);
-  });
-
-  await axios.post("http://localhost:4003/events", event).catch((err) => {
-    console.log(err.message);
-  });
+  await axios
+    .post("http://moderation-service:4003/events", event)
+    .catch((err) => {
+      console.log(err.message);
+    });
 
   return response.send({ status: "OK" });
 });

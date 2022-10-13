@@ -24,7 +24,7 @@ app.post("/posts", async (request, response) => {
   posts[post.id] = post;
 
   await axios
-    .post("http://localhost:4005/events", {
+    .post("http://event-bus-service:4005/events", {
       type: "PostCreated",
       data: {
         id: post.id,
@@ -39,6 +39,7 @@ app.post("/posts", async (request, response) => {
 });
 
 app.post("/events", (request, response) => {
+  console.log("Received Event", request.body.type);
   return response.send({});
 });
 
