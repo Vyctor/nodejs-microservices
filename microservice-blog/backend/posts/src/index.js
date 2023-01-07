@@ -11,11 +11,7 @@ app.use(cors());
 
 const posts = {};
 
-app.get("/posts", (request, response) => {
-  return response.send(posts);
-});
-
-app.post("/posts", async (request, response) => {
+app.post("/posts/create", async (request, response) => {
   const post = {
     id: uuidV4(),
     title: request.body.title,
