@@ -2,7 +2,10 @@ require('express-async-errors');
 import express from 'express';
 import { routes } from './routes/routes';
 import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/ not-found-error';
+import { NotFoundError } from './errors/not-found-error';
+import { MongooseSingletonConnection } from './database/mongo';
+
+new MongooseSingletonConnection().getInstance();
 
 const app = express();
 app.use(express.json());
